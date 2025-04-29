@@ -23,6 +23,7 @@ import {
   signInWithPopup,
   UserCredential
 } from 'firebase/auth';
+import { MockUser } from '@/lib/mockAuth';
 import { 
   doc, 
   setDoc, 
@@ -81,8 +82,9 @@ export const AuthProvider: React.FC<{children: React.ReactNode}> = ({ children }
   const [errors, setErrors] = useState<string[]>([]);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(async (user: User | null) => {
-      setCurrentUser(user);
+    // This function handles auth state changes from either Firebase or mock auth
+    const handleAuthChange = async (user: any) => {
+      setCurrentUser(user as User | null);
       
       if (user) {
         try {
@@ -150,8 +152,9 @@ export const AuthProvider: React.FC<{children: React.ReactNode}> = ({ children }
       }
       
       setLoading(false);
-    });
+    };
 
+    const unsubscribe = onAuthStateChanged(handleAuthChange);
     return unsubscribe;
   }, []);
 
@@ -308,8 +311,10 @@ export const AuthProvider: React.FC<{children: React.ReactNode}> = ({ children }
       setLoading(true);
       setErrors([]);
       
-      // Return the confirmation result for the next step
-      return await signInWithEmailAndPassword(auth, phoneNumber, appVerifier);
+      // This is a simplified version for demo
+      console.log('Phone auth is not fully implemented in the mock system');
+      toast.warning('Phone authentication requires full Firebase setup');
+      return null;
     } catch (error: any) {
       console.error("Phone login error:", error);
       setErrors(prev => [...prev, error.message]);
@@ -324,7 +329,7 @@ export const AuthProvider: React.FC<{children: React.ReactNode}> = ({ children }
   const logout = async (): Promise<boolean> => {
     try {
       setLoading(true);
-      await signOut(auth);
+      await signOut();
       toast.success("Logged out successfully");
       return true;
     } catch (error: any) {
@@ -429,7 +434,7 @@ export const AuthProvider: React.FC<{children: React.ReactNode}> = ({ children }
       setLoading(true);
       setErrors([]);
       
-      await sendPasswordResetEmail(auth, email);
+      await sendPasswordResetEmail(email);
       
       toast.success("Password reset email sent. Please check your inbox.");
       return true;
