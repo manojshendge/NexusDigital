@@ -6,10 +6,8 @@ import {
   facebookProvider, 
   githubProvider, 
   appleProvider, 
-  trackLoginDevice 
-} from '@/lib/firebase';
-import {
-  User,
+  trackLoginDevice,
+  // Use the wrappers that handle Firebase/mock fallback
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   sendEmailVerification,
@@ -18,8 +16,11 @@ import {
   signOut,
   updatePassword,
   updateEmail,
+  onAuthStateChanged
+} from '@/lib/firebase';
+import {
+  User,
   signInWithPopup,
-  onAuthStateChanged,
   UserCredential
 } from 'firebase/auth';
 import { 
@@ -80,18 +81,55 @@ export const AuthProvider: React.FC<{children: React.ReactNode}> = ({ children }
   const [errors, setErrors] = useState<string[]>([]);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    const unsubscribe = onAuthStateChanged(async (user: User | null) => {
       setCurrentUser(user);
       
       if (user) {
         try {
           // Get extended user info from Firestore
-          const userDocRef = doc(db, 'users', user.uid);
-          const userDoc = await getDoc(userDocRef);
-          
-          if (userDoc.exists()) {
-            const userData = userDoc.data();
+          try {
+            const userDocRef = doc(db, 'users', user.uid);
+            const userDoc = await getDoc(userDocRef);
             
+            if (userDoc.exists()) {
+              const userData = userDoc.data();
+              
+              setUserInfo({
+                uid: user.uid,
+                displayName: user.displayName,
+                email: user.email,
+                phoneNumber: user.phoneNumber,
+                photoURL: user.photoURL,
+                emailVerified: user.emailVerified,
+                createdAt: userData.createdAt,
+                lastLogin: userData.lastLogin,
+                username: userData.username,
+                isNewUser: false
+              });
+            } else {
+              // If user exists in Auth but not in Firestore, create a record
+              const newUserData = {
+                uid: user.uid,
+                displayName: user.displayName,
+                email: user.email,
+                phoneNumber: user.phoneNumber,
+                photoURL: user.photoURL,
+                emailVerified: user.emailVerified,
+                createdAt: serverTimestamp(),
+                lastLogin: null,
+                loginHistory: [],
+                isNewUser: true
+              };
+              
+              await setDoc(userDocRef, newUserData);
+              setUserInfo(newUserData as UserInfo);
+              
+              // Track this initial login
+              await trackLoginDevice(user.uid);
+            }
+          } catch (firestoreError) {
+            console.warn('Error accessing Firestore:', firestoreError);
+            // Create minimal user info from auth
             setUserInfo({
               uid: user.uid,
               displayName: user.displayName,
@@ -99,31 +137,10 @@ export const AuthProvider: React.FC<{children: React.ReactNode}> = ({ children }
               phoneNumber: user.phoneNumber,
               photoURL: user.photoURL,
               emailVerified: user.emailVerified,
-              createdAt: userData.createdAt,
-              lastLogin: userData.lastLogin,
-              username: userData.username,
+              createdAt: new Date(),
+              lastLogin: new Date(),
               isNewUser: false
             });
-          } else {
-            // If user exists in Auth but not in Firestore, create a record
-            const newUserData = {
-              uid: user.uid,
-              displayName: user.displayName,
-              email: user.email,
-              phoneNumber: user.phoneNumber,
-              photoURL: user.photoURL,
-              emailVerified: user.emailVerified,
-              createdAt: serverTimestamp(),
-              lastLogin: null,
-              loginHistory: [],
-              isNewUser: true
-            };
-            
-            await setDoc(userDocRef, newUserData);
-            setUserInfo(newUserData as UserInfo);
-            
-            // Track this initial login
-            await trackLoginDevice(user.uid);
           }
         } catch (error) {
           console.error("Error fetching user data:", error);
@@ -144,41 +161,50 @@ export const AuthProvider: React.FC<{children: React.ReactNode}> = ({ children }
       setLoading(true);
       setErrors([]);
       
-      // Create user in Firebase Auth
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      console.log('Starting registration with email:', email);
+      
+      // Create user - using our custom wrapper that handles the fallback
+      const userCredential = await createUserWithEmailAndPassword(email, password);
       const user = userCredential.user;
+      
+      console.log('User created successfully with ID:', user.uid);
       
       // Update profile with display name
       await updateProfile(user, {
         displayName: displayName
       });
       
-      // Create user document in Firestore
-      const userDocRef = doc(db, 'users', user.uid);
-      await setDoc(userDocRef, {
-        uid: user.uid,
-        displayName: displayName,
-        email: email,
-        phoneNumber: phoneNumber || null,
-        photoURL: null,
-        emailVerified: false,
-        createdAt: serverTimestamp(),
-        lastLogin: null,
-        loginHistory: []
-      });
+      try {
+        // Create user document in Firestore
+        const userDocRef = doc(db, 'users', user.uid);
+        await setDoc(userDocRef, {
+          uid: user.uid,
+          displayName: displayName,
+          email: email,
+          phoneNumber: phoneNumber || null,
+          photoURL: null,
+          emailVerified: false,
+          createdAt: serverTimestamp(),
+          lastLogin: null,
+          loginHistory: []
+        });
+        
+        // Track this initial login
+        await trackLoginDevice(user.uid);
+      } catch (firestoreError) {
+        console.warn('Could not create user in Firestore - likely using mock auth', firestoreError);
+      }
       
       // Send email verification
       await sendEmailVerification(user);
-      
-      // Track this initial login
-      await trackLoginDevice(user.uid);
       
       toast.success("Registration successful! Please verify your email.");
       return true;
     } catch (error: any) {
       console.error("Registration error:", error);
-      setErrors(prev => [...prev, error.message]);
-      toast.error(error.message);
+      const errorMessage = error.message || "Registration failed";
+      setErrors(prev => [...prev, errorMessage]);
+      toast.error(errorMessage);
       return false;
     } finally {
       setLoading(false);
@@ -194,19 +220,28 @@ export const AuthProvider: React.FC<{children: React.ReactNode}> = ({ children }
       // Save remember me preference
       window.localStorage.setItem('rememberMe', rememberMe.toString());
       
-      // Sign in user
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      console.log('Starting login with email:', email);
+      
+      // Sign in user - using the imported wrapper that handles fallback
+      const userCredential = await signInWithEmailAndPassword(email, password);
       const user = userCredential.user;
       
-      // Track this login
-      await trackLoginDevice(user.uid);
+      console.log('Login successful with user ID:', user.uid);
+      
+      try {
+        // Track this login
+        await trackLoginDevice(user.uid);
+      } catch (trackError) {
+        console.warn('Could not track login device - likely using mock auth', trackError);
+      }
       
       toast.success("Login successful!");
       return true;
     } catch (error: any) {
       console.error("Login error:", error);
-      setErrors(prev => [...prev, error.message]);
-      toast.error(error.message);
+      const errorMessage = error.message || "Login failed";
+      setErrors(prev => [...prev, errorMessage]);
+      toast.error(errorMessage);
       return false;
     } finally {
       setLoading(false);
