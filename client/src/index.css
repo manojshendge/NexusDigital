@@ -103,5 +103,21 @@
   .dark .text-secondary-light {
     @apply text-indigo-400;
   }
+  
+  /* Typewriter cursor animation */
+  .typewriter-cursor {
+    display: inline-block;
+    width: 3px;
+    height: 1em;
+    margin-left: 2px;
+    background-color: currentColor;
+    vertical-align: text-bottom;
+    animation: blink 0.7s infinite;
+  }
+  
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
 }
 

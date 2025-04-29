@@ -4,7 +4,7 @@ import { useTheme } from "@/components/ThemeProvider";
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const { theme, setTheme } = useTheme();
+  const { theme, resolvedTheme, setTheme } = useTheme();
   
   useEffect(() => {
     const handleScroll = () => {
@@ -25,7 +25,7 @@ const Navbar = () => {
   };
   
   const toggleTheme = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
+    setTheme(resolvedTheme === "dark" ? "light" : "dark");
   };
   
   return (
@@ -57,10 +57,14 @@ const Navbar = () => {
         <div className="flex items-center space-x-4">
           <button 
             onClick={toggleTheme}
+            aria-label={resolvedTheme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
             className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-dark-card dark:hover:bg-dark-lighter transition"
           >
-            <i className="fas fa-sun text-yellow-500 dark:hidden"></i>
-            <i className="fas fa-moon text-blue-300 hidden dark:block"></i>
+            {resolvedTheme === 'dark' ? (
+              <i className="fas fa-sun text-yellow-500"></i>
+            ) : (
+              <i className="fas fa-moon text-blue-300"></i>
+            )}
           </button>
           
           <a href="#contact" className="hidden md:block bg-gradient hover:opacity-90 text-white py-2 px-6 rounded-full font-medium transition">

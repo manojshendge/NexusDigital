@@ -1,6 +1,8 @@
 import { useEffect, useRef } from "react";
 import useTypewriter from "@/hooks/useTypewriter";
 import useCounter from "@/hooks/useCounter";
+import { motion } from "framer-motion";
+import { fadeInUp, fadeInRight } from "@/lib/animations";
 
 const Hero = () => {
   const counterRef = useRef<HTMLDivElement>(null);
@@ -45,14 +47,19 @@ const Hero = () => {
       
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="flex flex-col md:flex-row items-center">
-          <div className="md:w-1/2 mb-10 md:mb-0" data-aos="fade-right">
+          <motion.div 
+            className="md:w-1/2 mb-10 md:mb-0"
+            initial="hidden"
+            animate="visible"
+            variants={fadeInUp}
+          >
             <h1 className="font-montserrat font-bold text-4xl md:text-5xl lg:text-6xl leading-tight mb-6 dark:text-white">
               Empowering Your <span className="gradient-text">Digital Vision</span>
             </h1>
             
             <div className="h-8 mb-6 overflow-hidden">
-              <div className="text-xl md:text-2xl text-gray-600 dark:text-gray-400">
-                {typedText}
+              <div className="text-xl md:text-2xl text-gray-600 dark:text-gray-400 font-medium">
+                {typedText}<span className="typewriter-cursor"></span>
               </div>
             </div>
             
@@ -68,19 +75,30 @@ const Hero = () => {
                 Explore Services
               </a>
             </div>
-          </div>
+          </motion.div>
           
-          <div className="md:w-1/2 relative" data-aos="fade-up">
+          <motion.div 
+            className="md:w-1/2 relative"
+            initial="hidden"
+            animate="visible"
+            variants={fadeInRight}
+          >
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-tr from-primary/30 to-secondary/30 rounded-2xl blur-lg"></div>
               <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2072&q=80" 
                    alt="Digital Marketing and Software Development" 
                    className="rounded-2xl shadow-xl relative z-10 w-full transform transition duration-500 hover:scale-[1.02]" />
             </div>
-          </div>
+          </motion.div>
         </div>
         
-        <div ref={counterRef} className="mt-24 grid grid-cols-2 md:grid-cols-4 gap-8 items-center">
+        <motion.div 
+          ref={counterRef} 
+          className="mt-24 grid grid-cols-2 md:grid-cols-4 gap-8 items-center"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 0.5 }}
+        >
           <div className="text-center">
             <div className="text-4xl md:text-5xl font-montserrat font-bold gradient-text counter" data-target="150">0</div>
             <p className="text-gray-600 dark:text-gray-400 mt-2">Clients Worldwide</p>
@@ -99,7 +117,7 @@ const Hero = () => {
             </div>
             <p className="text-gray-600 dark:text-gray-400 mt-2">Years Experience</p>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

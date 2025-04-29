@@ -1,13 +1,27 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const useTypewriter = (phrases: string[], typingSpeed = 100, pauseTime = 1500) => {
   const [displayText, setDisplayText] = useState("");
   const [currentPhraseIndex, setCurrentPhraseIndex] = useState(0);
   const [currentCharIndex, setCurrentCharIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    // Clear existing timer when component unmounts or dependencies change
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const typeCharacter = () => {
+      if (!phrases || phrases.length === 0) {
+        return;
+      }
+      
       const currentPhrase = phrases[currentPhraseIndex];
       
       let newText = "";
@@ -15,11 +29,11 @@ const useTypewriter = (phrases: string[], typingSpeed = 100, pauseTime = 1500) =
       
       if (isDeleting) {
         newText = currentPhrase.substring(0, currentCharIndex - 1);
-        setCurrentCharIndex(currentCharIndex - 1);
+        setCurrentCharIndex(prev => prev - 1);
         delay = typingSpeed / 2; // Delete faster than typing
       } else {
         newText = currentPhrase.substring(0, currentCharIndex + 1);
-        setCurrentCharIndex(currentCharIndex + 1);
+        setCurrentCharIndex(prev => prev + 1);
       }
       
       setDisplayText(newText);
@@ -30,16 +44,22 @@ const useTypewriter = (phrases: string[], typingSpeed = 100, pauseTime = 1500) =
         setIsDeleting(true);
       } else if (isDeleting && currentCharIndex === 0) {
         setIsDeleting(false);
-        setCurrentPhraseIndex((currentPhraseIndex + 1) % phrases.length);
+        setCurrentPhraseIndex(prev => (prev + 1) % phrases.length);
         delay = 500; // Pause before typing next phrase
       }
       
-      setTimeout(typeCharacter, delay);
+      timerRef.current = setTimeout(typeCharacter, delay);
     };
     
-    const timerId = setTimeout(typeCharacter, 1000); // Start after 1s initial delay
+    // Start the typewriter with a slight initial delay
+    timerRef.current = setTimeout(typeCharacter, 400);
     
-    return () => clearTimeout(timerId);
+    // Cleanup on unmount or when dependencies change
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+    };
   }, [currentCharIndex, currentPhraseIndex, isDeleting, phrases, pauseTime, typingSpeed]);
   
   return displayText;

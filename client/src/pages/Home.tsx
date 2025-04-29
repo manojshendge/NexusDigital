@@ -9,18 +9,45 @@ import Testimonials from "@/components/Testimonials";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import ScrollToTop from "@/components/ScrollToTop";
+import { useTheme } from "@/components/ThemeProvider";
 
 const Home = () => {
+  const { resolvedTheme } = useTheme();
+
   useEffect(() => {
-    document.body.classList.add("font-poppins", "bg-light", "dark:bg-dark", "text-gray-800", "dark:text-gray-200", "transition-colors", "duration-300");
+    // Add base styles to body
+    document.body.classList.add(
+      "font-poppins",
+      "text-gray-800",
+      "transition-colors",
+      "duration-300"
+    );
     
     return () => {
-      document.body.classList.remove("font-poppins", "bg-light", "dark:bg-dark", "text-gray-800", "dark:text-gray-200", "transition-colors", "duration-300");
+      document.body.classList.remove(
+        "font-poppins",
+        "text-gray-800",
+        "transition-colors",
+        "duration-300"
+      );
     };
   }, []);
 
+  // This runs on every theme change
+  useEffect(() => {
+    if (resolvedTheme === "dark") {
+      document.body.classList.add("dark", "bg-dark");
+      document.body.classList.remove("light", "bg-light");
+      document.body.style.color = "#e5e7eb"; // text-gray-200
+    } else {
+      document.body.classList.add("light", "bg-light");
+      document.body.classList.remove("dark", "bg-dark");
+      document.body.style.color = "#1f2937"; // text-gray-800
+    }
+  }, [resolvedTheme]);
+
   return (
-    <>
+    <div className={`${resolvedTheme === "dark" ? "dark" : "light"}`}>
       <Navbar />
       <Hero />
       <Services />
@@ -31,7 +58,7 @@ const Home = () => {
       <Contact />
       <Footer />
       <ScrollToTop />
-    </>
+    </div>
   );
 };
 
