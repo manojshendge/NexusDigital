@@ -68,7 +68,7 @@ export default function DashboardPage() {
       </div>
 
       {!currentUser.emailVerified && (
-        <Alert variant="warning" className="mb-6 bg-yellow-50 text-yellow-800 border-yellow-200">
+        <Alert className="mb-6 bg-yellow-50 text-yellow-800 border-yellow-200">
           <AlertCircle className="h-4 w-4 text-yellow-600" />
           <AlertDescription>
             Your email is not verified. Please check your inbox and verify your email address.
@@ -78,7 +78,7 @@ export default function DashboardPage() {
 
       {errors.length > 0 && (
         <Alert variant="destructive" className="mb-6">
-          <ExclamationTriangleIcon className="h-4 w-4" />
+          <AlertTriangle className="h-4 w-4" />
           <AlertDescription>
             {errors.map((error, index) => (
               <div key={index}>{error}</div>
