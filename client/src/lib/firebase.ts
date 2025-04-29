@@ -19,7 +19,10 @@ import {
   signInWithPhoneNumber,
   multiFactor,
   PhoneMultiFactorGenerator,
-  TotpMultiFactorGenerator
+  TotpMultiFactorGenerator,
+  browserLocalPersistence,
+  browserSessionPersistence,
+  setPersistence
 } from "firebase/auth";
 import { 
   getFirestore, 
@@ -57,9 +60,10 @@ const githubProvider = new GithubAuthProvider();
 const appleProvider = new OAuthProvider('apple.com');
 
 // Session persistence
-auth.setPersistence(window.localStorage.getItem('rememberMe') === 'true' 
-  ? 'LOCAL' 
-  : 'SESSION');
+if (typeof window !== 'undefined') {
+  const rememberMe = window.localStorage.getItem('rememberMe') === 'true';
+  setPersistence(auth, rememberMe ? browserLocalPersistence : browserSessionPersistence);
+}
 
 // Helper to get current user
 const getCurrentUser = () => auth.currentUser;
