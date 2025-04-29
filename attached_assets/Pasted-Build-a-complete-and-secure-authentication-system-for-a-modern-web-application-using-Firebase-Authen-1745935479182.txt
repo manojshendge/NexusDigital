@@ -1,0 +1,118 @@
+Build a complete and secure authentication system for a modern web application using Firebase Authentication and Firestore. The UI should be clean, responsive, and user-friendly, while the backend should ensure security and scalability. The app should implement the following features:
+
+✅ Core Authentication Features
+User Registration & Login
+
+Support Email/Password and Phone/Password sign-up & login.
+
+Include optional username-based login with validation stored in Firestore.
+
+Store additional user info (e.g., full name, creation time, phone) in Firestore upon registration.
+
+OAuth / Social Login
+
+Integrate sign-in with Google, Facebook, GitHub, and Apple via Firebase Auth.
+
+Ensure user profile details are saved in Firestore after first sign-in.
+
+Password Hashing
+
+Firebase handles this internally—no need to manually hash passwords.
+
+Email Verification
+
+After registration, send a verification email.
+
+Prevent access to certain areas unless email is verified.
+
+Password Reset
+
+Implement a "Forgot Password" flow using Firebase's email reset system.
+
+Include success/error messages and token handling.
+
+Two-Factor Authentication (2FA)
+
+Use Firebase’s multi-factor auth with TOTP (authenticator apps) or SMS-based OTP.
+
+🛡️ Security Features
+Rate Limiting / Brute Force Protection
+
+Use Firebase Authentication’s built-in abuse detection.
+
+Optionally add client-side cooldown timer on repeated failed login attempts.
+
+Session Management
+
+Use Firebase ID tokens with token expiration and refresh mechanisms.
+
+Invalidate sessions on logout and enforce session timeout rules.
+
+JWT / Access Tokens
+
+Leverage Firebase-generated JWTs for secure, stateless authentication across sessions.
+
+Secure Storage & Transport
+
+Ensure the entire app runs over HTTPS.
+
+Store tokens in secure, HTTP-only cookies or use local/session storage carefully.
+
+Cross-Site Request Forgery (CSRF) Protection
+
+Use Firebase security rules + client verification to prevent unauthorized actions.
+
+Cross-Origin Resource Sharing (CORS) Rules
+
+Configure CORS properly for any backend functions or Firebase callable cloud functions.
+
+Device Recognition
+
+Track login devices (IP, browser, platform) and store them in Firestore.
+
+Notify users via email on suspicious logins (optional feature).
+
+Account Lockout & Alerts
+
+Lock or disable accounts via Firebase Admin SDK on multiple failed attempts.
+
+Send email alerts for logins from new locations or failed logins.
+
+💡 User Experience Enhancers
+Remember Me / Stay Logged In
+
+Allow users to stay logged in with persistent auth (setPersistence(firebase.auth.Auth.Persistence.LOCAL)).
+
+Single Sign-On (SSO) Support
+
+Allow integration with SAML or OpenID Connect for enterprise users (if needed).
+
+Login Activity Log
+
+Show the user a list of login activities from Firestore: device info, location, timestamp.
+
+Profile Management
+
+Let users update their name, email, and password.
+
+Changes should be reflected in Firebase Auth and Firestore.
+
+Captcha Integration
+
+Add Google reCAPTCHA v2 or v3 on login, sign-up, and password reset forms.
+
+Multi-Session Management
+
+Track active sessions (device info, token ID) in Firestore.
+
+Allow logout from all devices or individual sessions.
+
+📦 Tech Stack Requirements
+Frontend: HTML/CSS, JavaScript or React.js
+
+Backend/Database: Firebase Authentication, Firebase Firestore
+
+UI Design: Use clean UI components, animations (optional), responsive layout
+
+Deployment: Firebase Hosting or Vercel/Netlify with Firebase SDK integration
+
