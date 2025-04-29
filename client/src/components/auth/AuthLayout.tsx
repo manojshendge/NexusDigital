@@ -53,50 +53,56 @@ export default function AuthLayout({
                 <Separator className="flex-1" />
               </div>
               
-              <div className="grid grid-cols-2 gap-2">
-                <Button 
-                  variant="outline" 
-                  type="button" 
-                  disabled={isLoading}
-                  onClick={() => handleSocialLogin('google')}
-                  className="flex items-center justify-center space-x-2"
-                >
-                  <FaGoogle />
-                  <span>Google</span>
-                </Button>
-                
-                <Button 
-                  variant="outline" 
-                  type="button" 
-                  disabled={isLoading}
-                  onClick={() => handleSocialLogin('facebook')}
-                  className="flex items-center justify-center space-x-2"
-                >
-                  <FaFacebook />
-                  <span>Facebook</span>
-                </Button>
-                
-                <Button 
-                  variant="outline" 
-                  type="button" 
-                  disabled={isLoading}
-                  onClick={() => handleSocialLogin('github')}
-                  className="flex items-center justify-center space-x-2"
-                >
-                  <FaGithub />
-                  <span>GitHub</span>
-                </Button>
-                
-                <Button 
-                  variant="outline" 
-                  type="button" 
-                  disabled={isLoading}
-                  onClick={() => handleSocialLogin('apple')}
-                  className="flex items-center justify-center space-x-2"
-                >
-                  <FaApple />
-                  <span>Apple</span>
-                </Button>
+              <div className="space-y-4">
+                <p className="text-xs text-amber-600 text-center">
+                  Note: To enable social login, you need to configure each provider in the Firebase Console and add this domain to the authorized domains list.
+                </p>
+
+                <div className="grid grid-cols-2 gap-2">
+                  <Button 
+                    variant="outline" 
+                    type="button" 
+                    disabled={true}
+                    className="flex items-center justify-center space-x-2 opacity-50 cursor-not-allowed"
+                    title="Configuration needed in Firebase Console"
+                  >
+                    <FaGoogle />
+                    <span>Google</span>
+                  </Button>
+                  
+                  <Button 
+                    variant="outline" 
+                    type="button" 
+                    disabled={true}
+                    className="flex items-center justify-center space-x-2 opacity-50 cursor-not-allowed"
+                    title="Configuration needed in Firebase Console"
+                  >
+                    <FaFacebook />
+                    <span>Facebook</span>
+                  </Button>
+                  
+                  <Button 
+                    variant="outline" 
+                    type="button" 
+                    disabled={true}
+                    className="flex items-center justify-center space-x-2 opacity-50 cursor-not-allowed"
+                    title="Configuration needed in Firebase Console"
+                  >
+                    <FaGithub />
+                    <span>GitHub</span>
+                  </Button>
+                  
+                  <Button 
+                    variant="outline" 
+                    type="button" 
+                    disabled={true}
+                    className="flex items-center justify-center space-x-2 opacity-50 cursor-not-allowed"
+                    title="Configuration needed in Firebase Console"
+                  >
+                    <FaApple />
+                    <span>Apple</span>
+                  </Button>
+                </div>
               </div>
             </>
           )}
