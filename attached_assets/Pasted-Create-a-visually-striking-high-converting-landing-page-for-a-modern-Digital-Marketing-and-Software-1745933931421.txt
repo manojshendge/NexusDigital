@@ -1,0 +1,76 @@
+Create a visually striking, high-converting landing page for a modern Digital Marketing and Software Development agency. The landing page should be fully responsive, SEO-friendly, and built without any database or backend.
+
+🎨 Design Style: Futuristic, professional, and clean with modern animations (scroll-based, fade-in, parallax), smooth transitions, and micro-interactions. Use a dark/light toggle theme with bright accent colors (e.g., electric blue, neon green, or gradient-based highlights). Use elegant fonts like Poppins or Montserrat.
+
+🔥 Sections to include:
+
+Hero Section
+
+Bold headline (e.g., "Empowering Your Digital Vision.")
+
+Subheadline with value proposition
+
+Call-to-action (CTA) buttons: Get a Free Quote and Explore Services
+
+Background animation or video (optional)
+
+Our Services
+
+Digital Marketing (SEO, SEM, SMM, Content Marketing, Email Ads, Google Ads)
+
+Software Development (Web Apps, Mobile Apps, Cloud Solutions, Automation Tools)
+
+Each service with icon + short description + hover effect
+
+Why Choose Us
+
+List of benefits (e.g., Expert Team, Proven Results, Scalable Solutions)
+
+Animated counters for clients served, projects completed, avg. ROI, etc.
+
+Portfolio / Case Studies
+
+Grid layout with filtering (e.g., All, Marketing, Dev, UI/UX)
+
+Hover preview or lightbox gallery
+
+Client Testimonials
+
+Carousel or grid format
+
+Include avatar, name, and quote
+
+Tech Stack / Tools We Use
+
+Logos of tools like React, Node.js, Python, Firebase, Google Ads, etc.
+
+Get in Touch (CTA Section)
+
+Contact form (HTML only, no backend)
+
+Alternative: button to open email app (mailto:)
+
+WhatsApp or call now button (with icon)
+
+Footer
+
+Quick links, social media icons
+
+Newsletter subscription (just a UI placeholder)
+
+Copyright
+
+💡 Extra Features:
+
+Scroll-to-top button
+
+Sticky navigation bar
+
+Animated typing effect for hero text (“We Build, We Market, We Scale…”)
+
+Interactive service cards
+
+Lightweight and fast-loading assets
+
+🧠 Technical Stack (Optional):
+Use HTML, CSS (Tailwind or Bootstrap preferred), JavaScript (Vanilla or React). Avoid any DB or backend code. Focus on a fully front-end static design.
