@@ -1,6 +1,6 @@
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { Route, Switch } from "wouter";
+import { Route, Switch, Router } from "wouter";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -28,30 +28,32 @@ function App() {
         <Toaster />
         <ToastContainer position="top-right" autoClose={5000} />
         
-        <Switch>
-          {/* Public routes */}
-          <Route path="/" component={Home} />
-          <Route path="/login" component={LoginPage} />
-          <Route path="/register" component={RegisterPage} />
-          <Route path="/forgot-password" component={ForgotPasswordPage} />
-          
-          {/* Auth required, but no email verification needed */}
-          <Route path="/email-verification">
-            <ProtectedRoute requireVerified={false}>
-              <EmailVerificationPage />
-            </ProtectedRoute>
-          </Route>
-          
-          {/* Protected routes (auth + verified email required) */}
-          <Route path="/dashboard">
-            <ProtectedRoute>
-              <DashboardPage />
-            </ProtectedRoute>
-          </Route>
-          
-          {/* Fallback 404 page */}
-          <Route component={NotFound} />
-        </Switch>
+        <Router>
+          <Switch>
+            {/* Public routes */}
+            <Route path="/" component={Home} />
+            <Route path="/login" component={LoginPage} />
+            <Route path="/register" component={RegisterPage} />
+            <Route path="/forgot-password" component={ForgotPasswordPage} />
+            
+            {/* Auth required, but no email verification needed */}
+            <Route path="/email-verification">
+              <ProtectedRoute requireVerified={false}>
+                <EmailVerificationPage />
+              </ProtectedRoute>
+            </Route>
+            
+            {/* Protected routes (auth + verified email required) */}
+            <Route path="/dashboard">
+              <ProtectedRoute>
+                <DashboardPage />
+              </ProtectedRoute>
+            </Route>
+            
+            {/* Fallback 404 page */}
+            <Route component={NotFound} />
+          </Switch>
+        </Router>
       </TooltipProvider>
     </AuthProvider>
   );

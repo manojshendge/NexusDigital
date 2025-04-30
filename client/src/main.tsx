@@ -2,6 +2,7 @@ import { createRoot } from "react-dom/client";
 import App from "./App";
 import "./index.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { Router } from "wouter";
 
 // Prevent theme flash on first load
 const setInitialTheme = () => {
@@ -23,6 +24,8 @@ setInitialTheme();
 
 createRoot(document.getElementById("root")!).render(
   <ThemeProvider defaultTheme="system" storageKey="nexus-digital-theme">
-    <App />
+    <Router>
+      <App />
+    </Router>
   </ThemeProvider>
 );

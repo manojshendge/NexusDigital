@@ -74,17 +74,17 @@ const Contact = () => {
                   </div>
                   <div className="ml-4">
                     <h4 className="font-bold text-gray-800 dark:text-white mb-1">Our Location</h4>
-                    <p className="text-gray-600 dark:text-gray-400">123 Innovation Drive, Tech District, San Francisco, CA 94107</p>
+                  <p className="text-gray-600 dark:text-gray-400">Vancio Vaddo Guirim Bardez Goa</p>
                   </div>
                 </div>
                 
                 <div className="flex items-start">
-                  <div className="w-10 h-10 rounded-full bg-secondary/10 dark:bg-secondary/20 flex items-center justify-center flex-shrink-0 mt-1">
-                    <i className="fas fa-envelope text-secondary"></i>
+                  <div className="w-10 h-10 rounded-full bg-primary/10 dark:bg-secondary/20 flex items-center justify-center flex-shrink-0 mt-1">
+                    <i className="fas fa-envelope text-primary"></i>
                   </div>
                   <div className="ml-4">
                     <h4 className="font-bold text-gray-800 dark:text-white mb-1">Email Us</h4>
-                    <a href="mailto:info@nexusdigital.com" className="text-primary hover:underline">info@nexusdigital.com</a>
+                    <a href="mailto:shendgemanoj878@gmail.com" className="text-primary hover:underline">shendgemanoj878@gmail.com</a>
                     <p className="text-gray-600 dark:text-gray-400 mt-1">We respond within 24 hours</p>
                   </div>
                 </div>
@@ -95,7 +95,7 @@ const Contact = () => {
                   </div>
                   <div className="ml-4">
                     <h4 className="font-bold text-gray-800 dark:text-white mb-1">Call Us</h4>
-                    <a href="tel:+14155552671" className="text-primary hover:underline">+1 (415) 555-2671</a>
+                    <a href="tel:+918180950332" className="text-primary hover:underline">+91 8180950332</a>
                     <p className="text-gray-600 dark:text-gray-400 mt-1">Mon-Fri, 9am-6pm PST</p>
                   </div>
                 </div>
@@ -105,19 +105,19 @@ const Contact = () => {
             <div className="bg-white dark:bg-dark-card rounded-xl shadow-lg p-8">
               <h3 className="font-montserrat font-bold text-2xl mb-6 dark:text-white">Connect With Us</h3>
               <div className="flex space-x-4">
-                <a href="#" className="w-12 h-12 rounded-full bg-blue-600 hover:bg-blue-700 flex items-center justify-center text-white transition">
+                <a href="https://www.facebook.com/profile.php?id=61572643984403" className="w-12 h-12 rounded-full bg-blue-600 hover:bg-blue-700 flex items-center justify-center text-white transition">
                   <i className="fab fa-facebook-f"></i>
                 </a>
-                <a href="#" className="w-12 h-12 rounded-full bg-sky-500 hover:bg-sky-600 flex items-center justify-center text-white transition">
+                <a href="https://x.com/geckoS63388" className="w-12 h-12 rounded-full bg-sky-500 hover:bg-sky-600 flex items-center justify-center text-white transition">
                   <i className="fab fa-twitter"></i>
                 </a>
-                <a href="#" className="w-12 h-12 rounded-full bg-blue-700 hover:bg-blue-800 flex items-center justify-center text-white transition">
+                <a href="https://www.linkedin.com/in/manjunath-shendge-0a440b250/" className="w-12 h-12 rounded-full bg-blue-700 hover:bg-blue-800 flex items-center justify-center text-white transition">
                   <i className="fab fa-linkedin-in"></i>
                 </a>
-                <a href="#" className="w-12 h-12 rounded-full bg-gradient hover:opacity-90 flex items-center justify-center text-white transition">
+                <a href="https://www.instagram.com/shendgemanjunath/" className="w-12 h-12 rounded-full bg-gradient hover:opacity-90 flex items-center justify-center text-white transition">
                   <i className="fab fa-instagram"></i>
                 </a>
-                <a href="https://wa.me/14155552671" className="w-12 h-12 rounded-full bg-green-500 hover:bg-green-600 flex items-center justify-center text-white transition">
+                <a href="https://wa.me/+918180950332" className="w-12 h-12 rounded-full bg-green-500 hover:bg-green-600 flex items-center justify-center text-white transition">
                   <i className="fab fa-whatsapp"></i>
                 </a>
               </div>

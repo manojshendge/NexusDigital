@@ -51,7 +51,7 @@ const Services = () => {
         "Cloud Solutions & Deployment",
         "API Integrations & Automation"
       ],
-      learnMoreColor: "secondary"
+      learnMoreColor: "primary"
     },
     {
       icon: "fas fa-paint-brush",
@@ -87,7 +87,7 @@ const Services = () => {
         "Performance Analytics",
         "Predictive Analysis Models"
       ],
-      learnMoreColor: "secondary"
+      learnMoreColor: "primary "
     },
     {
       icon: "fas fa-robot",
